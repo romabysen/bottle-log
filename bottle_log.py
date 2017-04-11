@@ -13,7 +13,8 @@ class WSGIHandler(logging.Handler):
     def emit(self, record):
         if 'wsgi.errors' in bottle.request.environ:
             try:
-                msg = self.format(record)
+                msg = self.format(record).rstrip()
+                msg = '{0}\n'.format(msg)
                 stream = bottle.request.environ['wsgi.errors']
                 stream.write(msg)
                 stream.flush()
@@ -64,7 +65,7 @@ class LoggingPlugin():
 
 
 def _setup_root_logger(loglevel, logformat, logutc):
-    handler = logging.StreamHandler()
+    handler = WSGIHandler()
     formatter = logging.Formatter(logformat)
     if logutc:
         formatter.converter = time.gmtime
@@ -82,6 +83,5 @@ def _setup_exc_logger():
 
 def _setup_logger(loglevel):
         logger = logging.getLogger('bottle')
-        logger.addHandler(WSGIHandler())
         logger.setLevel(loglevel)
         return logger
