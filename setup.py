@@ -5,8 +5,10 @@ setup(
     version='1.0.0',
     license='New BSD',
     py_modules=['bottle_log'],
+    description='Improved logging for Bottle.',
     author='Lars Hansson',
     author_email='romabysen@gmail.com',
+    url='https://github.com/romabysen/bottle-log',
     install_requires=[
         'bottle>=0.10.0',
     ],
